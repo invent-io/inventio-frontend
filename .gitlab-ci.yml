@@ -1,0 +1,9 @@
+# https://docs.gitlab.com/runner/executors/docker.html (exemplo com shell)
+# https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-executors
+# https://docs.gitlab.com/ee/ci/pipelines/ stages
+
+custom:
+  stage: build
+  script:
+    - docker system prune -af
+    - docker-compose up --build -d

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Poppins';
+}
+
+:root {
+  --white: #ffffff;
+  --lighter-gray: #f3f3f3;
+  --light-gray: #e1e1e1;
+  --dark-gray: #707070;
+  --darker-gray: #444444;
+  --primary-blue: #1b498e;
+  --secondary-blue: #0075b4;
+  --black: #000000;
+  --red: #e60000;
+  --toastify-font-family: Poppins;
+}
+
+.Toastify__toast {
+  font-size: 14px !important;
+}
+
+.swal-wide {
+  width: 850px;
+}
+
+.swal2-popup {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.alert {
+  background-color: rgb(253, 237, 237);
+  color: rgb(95, 33, 32);
+}
+
+.alert:hover {
+  background-color: rgb(253, 237, 237) !important;
+}
