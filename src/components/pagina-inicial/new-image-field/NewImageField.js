@@ -132,55 +132,52 @@ const NewImageField = ({
                 className={styles.previewImage}
                 alt="preview"
               />
-              <div className={styles.options}>
-                {[...selectedSensors, ...temporarySelectedSensors].map(
-                  (sensor, index) => {
-                    return (
+              {[...selectedSensors, ...temporarySelectedSensors].map(
+                (sensor, index) => {
+                  return (
+                    <Draggable
+                      key={index}
+                      handle=".handle"
+                      defaultPosition={{
+                        x: sensorsPositions
+                          ? sensorsPositions[sensor?.name?.replace(/\s+/g, '')]
+                              ?.x
+                          : 0,
+                        y: sensorsPositions
+                          ? sensorsPositions[sensor?.name?.replace(/\s+/g, '')]
+                              ?.y
+                          : 0,
+                      }}
+                      position={null}
+                      grid={[3, 3]}
+                      scale={1}
+                      onStart={() => {
+                        ReactTooltip.hide();
+                      }}
+                      onStop={(e, data) => handleStop(e, data)}
+                      bounds="parent"
+                    >
                       <div
                         className={styles.option}
-                        key={sensor?.id}
                         style={{ left: index * 30 }}
                       >
-                        <Draggable
-                          handle=".handle"
-                          defaultPosition={{
-                            x: sensorsPositions
-                              ? sensorsPositions[
-                                  sensor?.name?.replace(/\s+/g, '')
-                                ]?.x
-                              : 0,
-                            y: sensorsPositions
-                              ? sensorsPositions[
-                                  sensor?.name?.replace(/\s+/g, '')
-                                ]?.y
-                              : 0,
-                          }}
-                          position={null}
-                          grid={[3, 3]}
-                          scale={1}
-                          onStart={() => {
-                            ReactTooltip.hide();
-                          }}
-                          onStop={(e, data) => handleStop(e, data)}
+                        <div
+                          className="handle"
+                          data-option={`${sensor?.name?.replace(/\s+/g, '')}`}
+                          id={`${sensor?.name?.replace(/\s+/g, '')}-point`}
+                          data-tip
+                          data-for={`label-${sensor?.name}`}
                         >
-                          <div
-                            className="handle"
-                            data-option={`${sensor?.name?.replace(/\s+/g, '')}`}
-                            id={`${sensor?.name?.replace(/\s+/g, '')}-point`}
-                            data-tip
-                            data-for={`label-${sensor?.name}`}
-                          >
-                            <span
-                              style={{ backgroundColor: `${colors[index]}` }}
-                              className={`${styles.marker}`}
-                            />
-                          </div>
-                        </Draggable>
+                          <span
+                            style={{ backgroundColor: `${colors[index]}` }}
+                            className={`${styles.marker}`}
+                          />
+                        </div>
                       </div>
-                    );
-                  }
-                )}
-              </div>
+                    </Draggable>
+                  );
+                }
+              )}
             </div>
             <div className={styles.labelOptions}>
               {[...selectedSensors, ...temporarySelectedSensors].map(

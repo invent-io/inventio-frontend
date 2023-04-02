@@ -1,6 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-// import { LoadingButton } from '@mui/lab';
-// import { styled } from '@mui/material';
 
 export const useStyles = makeStyles(() => ({
   wrapper: {
@@ -98,5 +96,5 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'row',
     gap: 16,
-  }
+  },
 }));
