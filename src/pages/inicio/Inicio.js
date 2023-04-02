@@ -24,7 +24,6 @@ export default function Inicio() {
         title="Página Inicial"
         buttonLabel={isNewImageFormVisible ? 'Voltar' : 'Cadastrar Novo Mapa'}
         onButtonClick={onCadastrarNovoClick}
-        hasInput={false}
       />
       <div className={styles.content}>
         {isNewImageFormVisible ? (

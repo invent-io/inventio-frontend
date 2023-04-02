@@ -3,7 +3,6 @@ import axios from 'axios';
 import { MultipleTextInputs, NewImageField, SensorList } from 'components';
 import { StyledButton } from 'components/shared/content-header/ContentHeader.styles';
 import { StyledTextField } from 'components/shared/multiple-text-inputs/MultipleTextInputs.styles';
-import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
@@ -37,7 +36,6 @@ const Mapa = () => {
   const [selectedSensors, setSelectedSensors] = useState([]);
   const [temporarySelectedSensors, setTemporarySelectedSensors] = useState([]);
   const [sensorOptions, setSensorOptions] = useState([]);
-  // const [allSensors, setAllSensors] = useState([]);
 
   const [mapInfo, setMapInfo] = useState({
     name: '',
@@ -158,9 +156,7 @@ const Mapa = () => {
       }
     );
 
-    const mapData = {
-      sensors,
-    };
+    const mapData = { ...mapInfo, sensors };
 
     axios
       .put(`${API_BASE_URL}/map/${id}`, mapData)
@@ -223,7 +219,10 @@ const Mapa = () => {
     sensors = sensors.filter(Boolean);
 
     setSelectedSensors(sensors);
-    setSensorOptions((prevState) => [...prevState, selectedSensors.find((s) => s._id === id)]);
+    setSensorOptions((prevState) => [
+      ...prevState,
+      selectedSensors.find((s) => s._id === id),
+    ]);
   };
 
   const setLoadingTimer = () => {
@@ -235,23 +234,6 @@ const Mapa = () => {
   const onReturnClick = () => {
     history.push(`/`);
   };
-
-  // const updatedPositionsWithSelectedSensors = () => {
-  //   const positions = {};
-  //   // console.log('[...selectedSensors, ...temporarySelectedSensors]', [...selectedSensors, ...temporarySelectedSensors]);
-  //   // console.log('mapInfo', mapInfo);
-  //   [...selectedSensors, ...temporarySelectedSensors]?.forEach((sensor) => {
-  //     const currentSensorInfo = mapInfo.sensors.find(
-  //       (s) => s.sensor_name === sensor.name
-  //     );
-  //     // console.log('currentSensorInfo', currentSensorInfo);
-  //     positions[sensor.name?.replace(/\s+/g, '')] = {
-  //       x: currentSensorInfo?.x || 0,
-  //       y: currentSensorInfo?.y || 0,
-  //     };
-  //   });
-  //   return positions;
-  // };
 
   const previewSensors = () => {
     return watchSensors.map((s) => {
@@ -266,15 +248,6 @@ const Mapa = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (mapInfo) {
-  //     console.log('here');
-  //     const positions = updatedPositionsWithSelectedSensors();
-  //     setSensorsPositions(positions);
-  //     getSensors();
-  //   }
-  // }, [mapInfo]);
-
   useEffect(() => {
     const tempSensors = previewSensors();
     setTemporarySelectedSensors(tempSensors);
@@ -286,8 +259,10 @@ const Mapa = () => {
         <StyledTextField
           size="medium"
           variant="standard"
-          disabled
-          label={mapInfo.name.toLocaleUpperCase()}
+          value={mapInfo.name.toLocaleUpperCase()}
+          onChange={(e) =>
+            setMapInfo((prevState) => ({ ...prevState, name: e.target.value }))
+          }
           fullWidth
         />
         <StyledPrimaryButton
@@ -295,10 +270,6 @@ const Mapa = () => {
           onClick={onSaveClick}
           style={{ width: '250px' }}
           loading={isSaveLoading}
-          disabled={
-            _.isEqual(initialSensorsPositions, sensorsPositions) &&
-            !imageChanged
-          }
         >
           Salvar Alterações
         </StyledPrimaryButton>
@@ -323,8 +294,13 @@ const Mapa = () => {
             <StyledTextField
               size="medium"
               variant="standard"
-              disabled
-              label={mapInfo.description}
+              value={mapInfo.description}
+              onChange={(e) =>
+                setMapInfo((prevState) => ({
+                  ...prevState,
+                  description: e.target.value,
+                }))
+              }
               fullWidth
             />
           </div>
